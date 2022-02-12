@@ -13,7 +13,7 @@ cd Steganalysis
 
 python bert.py
 
-or 
+## or 
 
 cd Steganalysis
 
