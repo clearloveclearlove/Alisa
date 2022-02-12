@@ -4,8 +4,7 @@ import torch.optim as optim
 import random
 import numpy as np
 from Datasets import get_data_iter
-# from statistic.Datasets import get_data_iter
-from Models import FCN, CNN, RNN, AE_RNN, Bert_fc
+from Models import RNN, Bert_fc
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from test import fc
 
@@ -40,36 +39,16 @@ for data_tmp in ['../bert-base-uncased-gen/bert-only-1_sample.txt',
     val_iter = get_data_iter(root='./data/val.csv', batch_size=64, shuffle=True)
     test_iter = get_data_iter(root='./data/test.csv', batch_size=64, shuffle=True)
 
-    VOCAB_SIZE = len(vocab)
     CLASSES = 2
     DEVICE = torch.device('cuda:0')
     HIDDEN_SIZE = 256
-    EMBEDDING_DIM = 128  # transformer 128   rnn 256
-    DROPOUT = 0.5
-    HEDAS = 8
-    MAX_LENGTH = 512
+    EMBEDDING_DIM = 300
     RNN_NUM_LAYERS = 2
-    Transformer_LAYERS = 2
-    NUM_FILTERS = 128
-    FILTER_SIZE = [3, 5, 7]
     MODEL = 'bert'
 
-    if MODEL == 'cnn':
-        model = CNN(vocab_size=VOCAB_SIZE, embedding_dim=EMBEDDING_DIM, num_filters=NUM_FILTERS,
-                    filter_size=FILTER_SIZE, classes=CLASSES).to(DEVICE)
-    elif MODEL == 'rnn':
+    if MODEL == 'rnn':
         model = RNN(vocab_size=VOCAB_SIZE, embedding_dim=EMBEDDING_DIM, hidden_size=HIDDEN_SIZE,
                     num_layers=RNN_NUM_LAYERS).to(DEVICE)
-    elif MODEL == 'transformer':
-        model = Transformer(vocab_size=VOCAB_SIZE, embedding_dim=EMBEDDING_DIM, num_layers=Transformer_LAYERS,
-                            num_heads=HEDAS, max_length=MAX_LENGTH).to(DEVICE)
-    elif MODEL == 'fcn':
-        model = FCN(vocab_size=VOCAB_SIZE, embedding_dim=EMBEDDING_DIM, classes=CLASSES).to(DEVICE)
-    elif MODEL == 'pt_transformer':
-        model = torch.load('transformer.pth').to(DEVICE)
-    elif MODEL == 'ae_rnn':
-        model = AE_RNN(vocab_size=VOCAB_SIZE, embedding_dim=EMBEDDING_DIM, hidden_size=HIDDEN_SIZE,
-                       num_layers=RNN_NUM_LAYERS).to(DEVICE)
     elif MODEL == 'bert':
         model = Bert_fc().to(DEVICE)
 
