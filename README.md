@@ -10,11 +10,13 @@ python ppl_test.py
 
 # 3.Steganalysis
 cd Steganalysis
+
 python bert.py
 
 or 
 
 cd Steganalysis
+
 python rnn.py
 
 
